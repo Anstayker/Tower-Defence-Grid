@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
+    #pragma warning disable 0649
     [SerializeField] List<Waypoint> path;
 
     private void Start() {
