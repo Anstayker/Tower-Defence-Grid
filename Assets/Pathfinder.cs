@@ -11,6 +11,8 @@ public class Pathfinder : MonoBehaviour {
     Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
     Queue<Waypoint> queue = new Queue<Waypoint>();
     bool isPathfinding = true;
+    Waypoint searchCenter;
+    List<Waypoint> path = new List<Waypoint>();
 
     Vector2Int[] directions = {
         Vector2Int.up,
@@ -19,46 +21,58 @@ public class Pathfinder : MonoBehaviour {
         Vector2Int.left
     };
 
-    private void Start() {
+    public List<Waypoint> GetPath() {
         LoadBlocks();
         ColorStartAndEnd();
-        Pathfind();
+        BreadthFirstSearch();
+        CreatePath();
+        return path;
     }
 
-    private void Pathfind() {
+    private void CreatePath() {
+        path.Add(endWaypoint);
+        Waypoint previous = endWaypoint.exploredFrom;
+        while (previous != startWaypoint) {
+            path.Add(previous);
+            previous = previous.exploredFrom;
+        }
+        path.Add(startWaypoint);
+        path.Reverse();
+    }
+
+    private void BreadthFirstSearch() {
         queue.Enqueue(startWaypoint);
         while (queue.Count > 0 && isPathfinding) {
-            Waypoint searchCenter = queue.Dequeue();
+            searchCenter = queue.Dequeue();
             searchCenter.isExplored = true;
-            if (searchCenter == endWaypoint) {
-                isPathfinding = false;
-            }
-            ExploreNeighbours(searchCenter);
+            if (searchCenter == endWaypoint) { isPathfinding = false; }
+            ExploreNeighbours();
         }
     }
 
-    private void ExploreNeighbours(Waypoint from) {
+    private void ExploreNeighbours() {
         if (!isPathfinding) { return; }
 
         foreach (Vector2Int direction in directions) {
-            Vector2Int neighbourCoordinates = direction + from.GetGridPos();
-            try {
+            Vector2Int neighbourCoordinates = direction + searchCenter.GetGridPos();
+            if(grid.ContainsKey(neighbourCoordinates)) {
                 QueueNewNeighbours(neighbourCoordinates);
             }
-            catch { }
         }
     }
 
     private void QueueNewNeighbours(Vector2Int neighbourCoordinates) {
         Waypoint neighbour = grid[neighbourCoordinates];
-        if (!neighbour.isExplored) {
-            neighbour.SetTopColor(Color.blue);
-            queue.Enqueue(neighbour);          
+        if (neighbour.isExplored || queue.Contains(neighbour)) {} 
+        else {
+            queue.Enqueue(neighbour);
+            neighbour.exploredFrom = searchCenter;  
         }
     }
 
     private void ColorStartAndEnd()
     {
+        // todo move out
         startWaypoint.SetTopColor(Color.green);
         endWaypoint.SetTopColor(Color.red);
     }

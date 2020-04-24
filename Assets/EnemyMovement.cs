@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
-    #pragma warning disable 0649
-    [SerializeField] List<Waypoint> path;
-
     private void Start() {
-        StartCoroutine(FollowPath());
+        Pathfinder pathfinder = FindObjectOfType<Pathfinder>();
+        List<Waypoint> path = pathfinder.GetPath();
+        StartCoroutine(FollowPath(path));
     }
 
-    IEnumerator FollowPath() {
-        print("Starting patrol...");
+    IEnumerator FollowPath(List<Waypoint> path) {
         foreach (Waypoint waypoint in path) {
-            print("Visiting waypoint: " + waypoint.name);
             transform.position = waypoint.transform.position;
+            waypoint.SetTopColor(Color.cyan);
             yield return new WaitForSeconds(1.0f);
         }
-        print("Ending patrol");
     }
 }
