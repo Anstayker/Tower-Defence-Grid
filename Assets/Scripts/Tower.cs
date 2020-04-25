@@ -8,8 +8,8 @@ public class Tower : MonoBehaviour {
     [Tooltip("In Unity units")][SerializeField] float attackRange = 30.0f;
     [SerializeField] float attackRate = 2.0f;
     [SerializeField] ParticleSystem projectileParticle;
-    [SerializeField] Transform targetEnemy;
 
+    Transform targetEnemy;
     ParticleSystem.EmissionModule emissionModule;
 
     private void Start() {
@@ -19,6 +19,8 @@ public class Tower : MonoBehaviour {
 
     private void Update() {
         emissionModule.rateOverTime = attackRate;
+        // Search here for the closest enemy
+        SearchTargetEnemy();
         ShotAtEnemy();
     }
 
@@ -31,11 +33,34 @@ public class Tower : MonoBehaviour {
                 objectToPan.transform.LookAt(targetEnemy);
                 emissionModule.enabled = true;
             } else {
+                            
                 emissionModule.enabled = false;
             }
         } else {
             emissionModule.enabled = false;
-            //Search for another enemy
         }
+
+    }
+
+    private void SearchTargetEnemy() {
+        EnemyCollisionHandler[] sceneEnemies = FindObjectsOfType<EnemyCollisionHandler>();
+        if (sceneEnemies.Length == 0) {return;}
+
+        Transform closestEnemy = sceneEnemies[0].transform;
+        foreach (EnemyCollisionHandler testEnemy in sceneEnemies) {
+            closestEnemy = GetClosest(closestEnemy, testEnemy.transform);
+        }
+        targetEnemy = closestEnemy;
+    }
+
+    private Transform GetClosest(Transform enemy1, Transform enemy2) {
+        float distanceToEnemy1 = Vector3.Distance(
+                enemy1.transform.position, 
+                gameObject.transform.position);
+        float distanceToEnemy2 = Vector3.Distance(
+                enemy2.transform.position, 
+                gameObject.transform.position);                        
+        if (distanceToEnemy1 > distanceToEnemy2) {return enemy2;}
+        else {return enemy1;}
     }
 }
