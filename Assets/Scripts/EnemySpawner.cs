@@ -14,7 +14,8 @@ public class EnemySpawner : MonoBehaviour {
 
     private IEnumerator SpawnEnemy() {
         while(true) {
-            Instantiate(enemy, gameObject.transform.position, Quaternion.identity);
+            EnemyMovement newEnemy = Instantiate(enemy, gameObject.transform.position, Quaternion.identity);
+            newEnemy.transform.parent = gameObject.transform;
             yield return new WaitForSeconds(spawnLapse);
         }
     }
