@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
+    [SerializeField] float velocity = 1.0f;
+
     private void Start() {
         Pathfinder pathfinder = FindObjectOfType<Pathfinder>();
         List<Waypoint> path = pathfinder.GetPath();
@@ -14,7 +16,7 @@ public class EnemyMovement : MonoBehaviour {
         foreach (Waypoint waypoint in path) {
             transform.position = waypoint.transform.position;
             waypoint.SetTopColor(Color.cyan);
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(velocity);
         }
     }
 }

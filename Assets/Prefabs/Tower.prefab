@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToPan: {fileID: 2829464884099384607}
+  attackRange: 20
+  projectileParticle: {fileID: 2082948837425919914}
   targetEnemy: {fileID: 0}
 --- !u!1001 &2831309594260970919
 PrefabInstance:
@@ -189,11 +191,37 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4297221285265475293, guid: 8238921bafd389b44921fe80cc7f1f9d,
+        type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4297221285265475293, guid: 8238921bafd389b44921fe80cc7f1f9d,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.r
+      value: 0.8679245
+      objectReference: {fileID: 0}
+    - target: {fileID: 4297221285265475293, guid: 8238921bafd389b44921fe80cc7f1f9d,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.g
+      value: 0.5397473
+      objectReference: {fileID: 0}
+    - target: {fileID: 4297221285265475293, guid: 8238921bafd389b44921fe80cc7f1f9d,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 0.11053756
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8238921bafd389b44921fe80cc7f1f9d, type: 3}
 --- !u!4 &2829464884099384607 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4101459293844584, guid: 8238921bafd389b44921fe80cc7f1f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2831309594434384247}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2082948837425919914 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4297221285265475293, guid: 8238921bafd389b44921fe80cc7f1f9d,
     type: 3}
   m_PrefabInstance: {fileID: 2831309594434384247}
   m_PrefabAsset: {fileID: 0}
