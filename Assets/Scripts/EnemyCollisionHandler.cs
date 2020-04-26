@@ -9,6 +9,7 @@ public class EnemyCollisionHandler : MonoBehaviour {
     [SerializeField] int hitPoints = 5;
     public int damage = 1;
     [SerializeField] ParticleSystem hitFX;
+    [SerializeField] AudioClip hitSound;
     [SerializeField] ParticleSystem deathFX;
     [SerializeField] ParticleSystem goalFX;
 
@@ -22,6 +23,7 @@ public class EnemyCollisionHandler : MonoBehaviour {
             killEnemy(deathFX);
         } else {
             hitFX.Play();
+            GetComponent<AudioSource>().PlayOneShot(hitSound);
         }
     }
 
@@ -33,6 +35,9 @@ public class EnemyCollisionHandler : MonoBehaviour {
         );
 
         ParticleSystem enemyExplosion = Instantiate(destructionFX, particlePoint, Quaternion.identity);
+        // Instantiate Audio
+        // AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
+        // Debug.Break();
         Destroy(enemyExplosion.gameObject, enemyExplosion.main.duration);
         Destroy(gameObject);
     }

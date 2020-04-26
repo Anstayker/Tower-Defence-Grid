@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField] EnemyMovement enemy;
     [SerializeField] float spawnLapse = 2.0f;
     [SerializeField] Text scoreText;
+    [SerializeField] AudioClip spawnSound;
 
     private int waveNumber = 0;
 
@@ -19,6 +20,7 @@ public class EnemySpawner : MonoBehaviour {
     private IEnumerator SpawnEnemy() {
         while(true) {
             EnemyMovement newEnemy = Instantiate(enemy, gameObject.transform.position, Quaternion.identity);
+            GetComponent<AudioSource>().PlayOneShot(spawnSound);
             waveNumber++;
             scoreText.text = ("Score: " + waveNumber);
             newEnemy.transform.parent = gameObject.transform;
