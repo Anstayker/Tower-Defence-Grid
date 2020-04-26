@@ -6,6 +6,8 @@ public class TowerFactory : MonoBehaviour {
 
     [Tooltip("Tower Prefab")][SerializeField] Tower tower;
     public int towerLimit = 3;
+    [SerializeField] GameObject towerParent;
+
     Queue<Tower> towersInGame = new Queue<Tower>();
 
     public void AddTower(Waypoint baseWaypoint) {
@@ -19,9 +21,10 @@ public class TowerFactory : MonoBehaviour {
 
     private void InstateNewTower(Waypoint newBaseWaypoint) {
         Tower newTower = Instantiate(tower, newBaseWaypoint.transform.position, Quaternion.identity);
+        newTower.transform.parent = towerParent.transform;
         newTower.baseWaypoint = newBaseWaypoint;
-        towersInGame.Enqueue(newTower);
         newBaseWaypoint.isPlaceable = false;
+        towersInGame.Enqueue(newTower);
     }
 
     private void MoveExistingTower(Waypoint newBaseWaypoint) {

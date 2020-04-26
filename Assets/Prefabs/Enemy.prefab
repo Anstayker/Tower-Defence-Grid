@@ -93,6 +93,7 @@ MonoBehaviour:
   hitPoints: 5
   hitFX: {fileID: 6182865281566127743}
   deathFX: {fileID: 198537984209914932, guid: 1a51bfda454239a41afb7dee687c6ac0, type: 3}
+  goalFX: {fileID: 7464752595417472293, guid: c9fcabf8d6155f34ebefce5b4ccca1c1, type: 3}
 --- !u!1 &1646541640735296
 GameObject:
   m_ObjectHideFlags: 0

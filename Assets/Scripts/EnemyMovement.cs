@@ -15,8 +15,11 @@ public class EnemyMovement : MonoBehaviour {
     IEnumerator FollowPath(List<Waypoint> path) {
         foreach (Waypoint waypoint in path) {
             transform.position = waypoint.transform.position;
-            waypoint.SetTopColor(Color.cyan);
+            waypoint.SetTopColor(Color.cyan);   
             yield return new WaitForSeconds(velocity);
         }
+        EnemyCollisionHandler enemyCollisionHandler = gameObject.GetComponent<EnemyCollisionHandler>();
+        enemyCollisionHandler.selfDestruct();
+        FindObjectOfType<PlayerStats>().loseLifePoints(enemyCollisionHandler.damage);
     }
 }

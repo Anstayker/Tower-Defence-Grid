@@ -8,7 +8,9 @@ public class Tower : MonoBehaviour {
     [Tooltip("In Unity units")][SerializeField] float attackRange = 30.0f;
     [SerializeField] float attackRate = 2.0f;
     [SerializeField] ParticleSystem projectileParticle;
-
+    
+    [HideInInspector] public Waypoint baseWaypoint;
+    
     Transform targetEnemy;
     ParticleSystem.EmissionModule emissionModule;
 

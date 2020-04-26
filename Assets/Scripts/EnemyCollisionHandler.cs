@@ -7,26 +7,33 @@ using UnityEngine;
 public class EnemyCollisionHandler : MonoBehaviour {
 
     [SerializeField] int hitPoints = 5;
+    public int damage = 1;
     [SerializeField] ParticleSystem hitFX;
     [SerializeField] ParticleSystem deathFX;
+    [SerializeField] ParticleSystem goalFX;
+
+    public void selfDestruct() {
+        killEnemy(goalFX);
+    }
 
     private void OnParticleCollision(GameObject other) {
         hitPoints--;
         if (hitPoints <= 0) {   
-            killEnemy();
+            killEnemy(deathFX);
         } else {
             hitFX.Play();
         }
     }
 
-    private void killEnemy() {
-       Vector3 particlePoint = new Vector3(
+    private void killEnemy(ParticleSystem destructionFX) {
+       Vector3 particlePoint = new Vector3 (
             transform.position.x,
             transform.position.y + 5.0f,
             transform.position.z
         );
 
-        Instantiate(deathFX, particlePoint, Quaternion.identity);
+        ParticleSystem enemyExplosion = Instantiate(destructionFX, particlePoint, Quaternion.identity);
+        Destroy(enemyExplosion.gameObject, enemyExplosion.main.duration);
         Destroy(gameObject);
     }
 }
