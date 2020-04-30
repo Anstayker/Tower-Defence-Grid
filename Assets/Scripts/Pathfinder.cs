@@ -35,21 +35,23 @@ public class Pathfinder : MonoBehaviour {
         CreatePath();
     }
 
-    private void CreatePath() {
-        SetAsPath(endWaypoint);
-        Waypoint previous = endWaypoint.exploredFrom;
-        while (previous != startWaypoint) {
-            SetAsPath(previous);
-            previous = previous.exploredFrom;
+    private void LoadBlocks() {
+        Waypoint[] waypoints = FindObjectsOfType<Waypoint>();
+        foreach (Waypoint waypoint in waypoints) {
+            Vector2Int gridPos = waypoint.GetGridPos();
+            if (grid.ContainsKey(gridPos)) {
+                Debug.LogWarning("Skipping Overlapping.block " + waypoint);
+            } else {
+                grid.Add(gridPos, waypoint);
+                waypoint.SetTopColor(Color.grey);
+            }
         }
-        SetAsPath(startWaypoint);
-        path.Reverse();
     }
 
-    private void SetAsPath(Waypoint waypoint) {
-        path.Add(waypoint);
-        waypoint.isPlaceable = false;
-
+    private void ColorStartAndEnd() {
+        // todo move out
+        startWaypoint.SetTopColor(Color.green);
+        endWaypoint.SetTopColor(Color.red);
     }
 
     private void BreadthFirstSearch() {
@@ -60,6 +62,17 @@ public class Pathfinder : MonoBehaviour {
             if (searchCenter == endWaypoint) { isPathfinding = false; }
             ExploreNeighbours();
         }
+    }    
+
+    private void CreatePath() {
+        SetAsPath(endWaypoint);
+        Waypoint previous = endWaypoint.exploredFrom;
+        while (previous != startWaypoint) {
+            SetAsPath(previous);
+            previous = previous.exploredFrom;
+        }
+        SetAsPath(startWaypoint);
+        path.Reverse();
     }
 
     private void ExploreNeighbours() {
@@ -82,23 +95,8 @@ public class Pathfinder : MonoBehaviour {
         }
     }
 
-    private void ColorStartAndEnd()
-    {
-        // todo move out
-        startWaypoint.SetTopColor(Color.green);
-        endWaypoint.SetTopColor(Color.red);
-    }
-
-    private void LoadBlocks() {
-        var waypoints = FindObjectsOfType<Waypoint>();
-        foreach (Waypoint waypoint in waypoints) {
-            Vector2Int gridPos = waypoint.GetGridPos();
-            if (grid.ContainsKey(gridPos)) {
-                Debug.LogWarning("Skipping Overlapping.block " + waypoint);
-            } else {
-                grid.Add(gridPos, waypoint);
-                waypoint.SetTopColor(Color.grey);
-            }
-        }
+    private void SetAsPath(Waypoint waypoint) {
+        path.Add(waypoint);
+        waypoint.isPlaceable = false;
     }
 }

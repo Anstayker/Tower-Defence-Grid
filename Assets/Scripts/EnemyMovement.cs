@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
-    [SerializeField] float velocity = 1.0f;
+    [Tooltip("Seconds between block")][SerializeField] float velocity = 1.0f;
 
     private void Start() {
         Pathfinder pathfinder = FindObjectOfType<Pathfinder>();
